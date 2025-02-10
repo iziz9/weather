@@ -8,6 +8,7 @@ import styled from 'styled-components'
 import { ICoords } from '../types/geoTypes'
 import CurrentWeather from '../components/CurrentWeather'
 import Today from '../components/Today'
+import Loading from '../components/Loading'
 // import { combinedWeatherMock } from '../mock/combinedWeatherMock'
 
 interface IGeoLocationPosition {
@@ -67,7 +68,9 @@ const Home = () => {
   if (!weatherData)
     return (
       <HomeContainer>
-        <div className="no-result">날씨 정보를 불러올 수 없습니다.</div>
+        <div className="no-result">
+          <Loading />
+        </div>
       </HomeContainer>
     )
 
