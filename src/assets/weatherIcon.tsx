@@ -7,8 +7,7 @@ export const ClearSkyIcon = ({ size }: { size: string }) => {
       width={size}
       height={size}
       viewBox="0 0 96 96"
-      enableBackground="new 0 0 96 96"
-      xmlSpace="preserve"
+      fill="#fff"
     >
       <g id="Base" display="none"></g>
       <g id="Dibujo">
@@ -26,8 +25,7 @@ export const FewCloudsIcon = ({ size }: { size: string }) => {
       width={size}
       height={size}
       viewBox="0 0 96 96"
-      enableBackground="new 0 0 96 96"
-      xmlSpace="preserve"
+      fill="#fff"
     >
       <g id="Base" display="none"></g>
       <g id="Dibujo">
@@ -66,8 +64,7 @@ export const ManyCloudsIcon = ({ size }: { size: string }) => {
       width={size}
       height={size}
       viewBox="0 0 96 96"
-      enableBackground="new 0 0 96 96"
-      xmlSpace="preserve"
+      fill="#fff"
     >
       <g id="Base" display="none"></g>
       <g id="Dibujo">
@@ -93,8 +90,7 @@ export const ShowerRainIcon = ({ size }: { size: string }) => {
       width={size}
       height={size}
       viewBox="0 0 96 96"
-      enableBackground="new 0 0 96 96"
-      xmlSpace="preserve"
+      fill="#fff"
     >
       <g id="Base" display="none"></g>
       <g id="Dibujo">
@@ -117,8 +113,7 @@ export const RainIcon = ({ size }: { size: string }) => {
       width={size}
       height={size}
       viewBox="0 0 96 96"
-      enableBackground="new 0 0 96 96"
-      xmlSpace="preserve"
+      fill="#fff"
     >
       <g id="Base" display="none"></g>
       <g id="Dibujo">
@@ -145,8 +140,7 @@ export const ThunderStormIcon = ({ size }: { size: string }) => {
       width={size}
       height={size}
       viewBox="0 0 96 96"
-      enableBackground="new 0 0 96 96"
-      xmlSpace="preserve"
+      fill="#fff"
     >
       <g id="Base" display="none"></g>
       <g id="Dibujo">
@@ -164,8 +158,7 @@ export const SnowIcon = ({ size }: { size: string }) => {
       width={size}
       height={size}
       viewBox="0 0 96 96"
-      enableBackground="new 0 0 96 96"
-      xmlSpace="preserve"
+      fill="#fff"
     >
       <g id="Base" display="none"></g>
       <g id="Dibujo">
@@ -191,8 +184,7 @@ export const MistIcon = ({ size }: { size: string }) => {
       width={size}
       height={size}
       viewBox="0 0 96 96"
-      enableBackground="new 0 0 96 96"
-      xmlSpace="preserve"
+      fill="#fff"
     >
       <g id="Base" display="none"></g>
       <g id="Dibujo">

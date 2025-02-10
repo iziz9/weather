@@ -1,14 +1,14 @@
 import { useEffect, useState } from 'react'
 import { getWeatherData } from '../api/weatherRequest'
-import { weatherMock } from '../mock/mockData'
 import { IWeatherResponse } from '../types/weatherTypes'
 import { getCurrentLocationName } from '../api/geoRequest'
 import HourlyWeather from '../components/HourlyWeather'
 import WeeklyWeather from '../components/WeeklyWeather'
 import styled from 'styled-components'
-import { calcTemperature } from '../utils/weatherUtils'
-import { LocationIcon } from '../assets/locationIcon'
-import { selectWeatherIcon } from '../utils/selectIcon'
+import { ICoords } from '../types/geoTypes'
+import CurrentWeather from '../components/CurrentWeather'
+import Today from '../components/Today'
+// import { combinedWeatherMock } from '../mock/combinedWeatherMock'
 
 interface IGeoLocationPosition {
   coords: {
@@ -19,7 +19,7 @@ interface IGeoLocationPosition {
 
 const Home = () => {
   const [city, setCity] = useState<string>('')
-  const [location, setLocation] = useState({ lat: 0, lon: 0 })
+  const [location, setLocation] = useState<ICoords>({ lat: 0, lon: 0 })
   const [weatherData, setWeatherData] = useState<IWeatherResponse>()
 
   useEffect(() => {
@@ -30,7 +30,7 @@ const Home = () => {
       }
       const onGeoError = () => {
         setCity('서울시 종로구')
-        setLocation({ lat: 38.0539, lon: 127.1362 })
+        setLocation({ lat: 37.58009, lon: 126.9771 })
         alert('위치를 확인할 수 없습니다. 기본 위치의 날씨가 제공됩니다.')
       }
       navigator.geolocation.getCurrentPosition(onGeoSuccess, onGeoError)
@@ -41,59 +41,79 @@ const Home = () => {
   useEffect(() => {
     if (location.lat === 0) return
 
-    // const requestGetWeatherData = async () => {
-    //   const res = await getWeatherData(location)
-    //   console.log(res)
-    //   if (res) setWeatherData(res)
-    // }
-    // requestGetWeatherData()
-
-    setWeatherData(weatherMock)
-
+    const requestGetWeatherData = async () => {
+      try {
+        const res = await getWeatherData(location)
+        if (res) setWeatherData(res)
+      } catch {
+        alert('날씨를 불러올 수 없습니다.')
+      }
+    }
     const requestGetCurrentLocationName = async () => {
       try {
         const res = await getCurrentLocationName(location)
         const { components } = res[0]
         setCity(`${components.city} ${components.borough || ''} ${components.quarter || components.road}`)
-      } catch (err) {
+      } catch {
         setCity('서울시 종로구')
-        console.log(err)
       }
     }
+
     requestGetCurrentLocationName()
+    requestGetWeatherData()
+    // setWeatherData(combinedWeatherMock) // 테스트용 mock
   }, [location])
 
-  if (!weatherData) return <HomeContainer></HomeContainer>
+  if (!weatherData)
+    return (
+      <HomeContainer>
+        <div className="no-result">날씨 정보를 불러올 수 없습니다.</div>
+      </HomeContainer>
+    )
 
   return (
     <HomeContainer>
-      <CurrentWeatherContainer>
-        <div className="location">
-          <LocationIcon />
-          <span>{city}</span>
-        </div>
-        <div>{selectWeatherIcon(weatherData.current.weather[0].id, '150px')}</div>
-        <div>{calcTemperature(weatherData.current.temp, true)}°</div>
-        <div>{weatherData.current.weather[0].description}</div>
-      </CurrentWeatherContainer>
-      <HourlyWeather hourlyData={weatherData.hourly} />
-      <WeeklyWeather />
+      <LeftBox>
+        <CurrentWeather currentData={weatherData.current} city={city} />
+        <HourlyWeather hourlyData={weatherData.hourly} />
+      </LeftBox>
+      <RightBox>
+        <Today currentTemp={weatherData.current.temp} />
+        <WeeklyWeather />
+      </RightBox>
     </HomeContainer>
   )
 }
 
 const HomeContainer = styled.main`
   display: flex;
-  flex-direction: column;
-  gap: 15px;
-`
+  background-color: #00000042;
+  border-radius: 16px;
+  position: relative;
+  color: #bdbdbd;
 
-const CurrentWeatherContainer = styled.section`
-  .location {
-    display: flex;
-    align-items: center;
-    font-size: 26px;
+  .no-result {
+    width: 100%;
+    text-align: center;
+    padding: 150px 0;
   }
+`
+const LeftBox = styled.div`
+  position: relative;
+  width: 73%;
+  margin: 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+`
+const RightBox = styled.div`
+  display: flex;
+  flex-direction: column;
+  width: 100%;
+  background-color: #00000042;
+  border-top-right-radius: 16px;
+  border-bottom-right-radius: 16px;
+  padding: 30px 20px;
 `
 
 export default Home

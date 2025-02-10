@@ -1,4 +1,4 @@
-export const weatherMock = {
+export const combinedWeatherMock = {
   lat: 37.0636,
   lon: 127.0566,
   timezone: 'Asia/Seoul',
