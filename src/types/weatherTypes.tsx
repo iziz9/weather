@@ -22,8 +22,6 @@ interface IBasicWeatherData {
   dew_point: number
   uvi: number
   clouds: number
-  rain?: number
-  snow?: number
   visibility?: number
   wind_speed: number
   wind_deg: number
@@ -35,13 +33,19 @@ interface IWeatherCurrent extends IBasicWeatherData {
   feels_like: number
   temp: number
 }
-interface IWeatherHourly extends IBasicWeatherData {
+export interface IWeatherHourly extends IBasicWeatherData {
   temp: number
   feels_like: number
   wind_gust: number
   pop: number
+  snow?: {
+    '1h': number
+  }
+  rain?: {
+    '1h': number
+  }
 }
-interface IWeatherDaily extends IBasicWeatherData {
+export interface IWeatherDaily extends IBasicWeatherData {
   sunrise: number
   sunset: number
   moonrise: number
@@ -64,4 +68,6 @@ interface IWeatherDaily extends IBasicWeatherData {
   }
   wind_gust: number
   pop: number
+  rain?: number
+  snow?: number
 }

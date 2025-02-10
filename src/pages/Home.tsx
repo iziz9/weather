@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
-// import { getWeatherData } from '../api/weatherRequest'
+import { getWeatherData } from '../api/weatherRequest'
 import { weatherMock } from '../mock/mockData'
 import { IWeatherResponse } from '../types/weatherTypes'
 import { getCurrentLocationName } from '../api/geoRequest'
 import HourlyWeather from '../components/HourlyWeather'
 import WeeklyWeather from '../components/WeeklyWeather'
-import CurrentWeather from '../components/CurrentWeather'
 import styled from 'styled-components'
+import { calcTemperature } from '../utils/weatherUtils'
+import { LocationIcon } from '../assets/locationIcon'
+import { selectWeatherIcon } from '../utils/selectIcon'
 
 interface IGeoLocationPosition {
   coords: {
@@ -42,6 +44,7 @@ const Home = () => {
     // const requestGetWeatherData = async () => {
     //   const res = await getWeatherData(location)
     //   console.log(res)
+    //   if (res) setWeatherData(res)
     // }
     // requestGetWeatherData()
 
@@ -60,12 +63,20 @@ const Home = () => {
     requestGetCurrentLocationName()
   }, [location])
 
+  if (!weatherData) return <HomeContainer></HomeContainer>
+
   return (
     <HomeContainer>
-      <div>현재 위치 : {city}</div>
-      <div>{weatherData?.current.weather[0].description}</div>
-      <CurrentWeather />
-      <HourlyWeather />
+      <CurrentWeatherContainer>
+        <div className="location">
+          <LocationIcon />
+          <span>{city}</span>
+        </div>
+        <div>{selectWeatherIcon(weatherData.current.weather[0].id, '150px')}</div>
+        <div>{calcTemperature(weatherData.current.temp, true)}°</div>
+        <div>{weatherData.current.weather[0].description}</div>
+      </CurrentWeatherContainer>
+      <HourlyWeather hourlyData={weatherData.hourly} />
       <WeeklyWeather />
     </HomeContainer>
   )
@@ -76,4 +87,13 @@ const HomeContainer = styled.main`
   flex-direction: column;
   gap: 15px;
 `
+
+const CurrentWeatherContainer = styled.section`
+  .location {
+    display: flex;
+    align-items: center;
+    font-size: 26px;
+  }
+`
+
 export default Home

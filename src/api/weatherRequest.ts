@@ -14,6 +14,6 @@ export const getWeatherData = async ({ lat, lon }: IGetWeatherData) => {
       params: { ...DEFAULT_OPTION, lat, lon, units: 'metric', exclude: 'minutely' }
     })
     .then((res) => {
-      return res.data.results
+      return res.data
     })
 }
