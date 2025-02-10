@@ -3047,6 +3047,15 @@ __metadata:
   languageName: node
   linkType: hard
 
+"styled-reset@npm:^4.5.2":
+  version: 4.5.2
+  resolution: "styled-reset@npm:4.5.2"
+  peerDependencies:
+    styled-components: ">=4.0.0 || >=5.0.0 || >=6.0.0"
+  checksum: 17a3d19283c22a5659f0a2b3d4d067edc5556a8c363b79107874a648c2c31f0a2a0fd4d07ce4182e6a3dbef18385b2378abbdf92ebdd6ebb2bbba47c2c5f8fd6
+  languageName: node
+  linkType: hard
+
 "stylis@npm:4.3.2":
   version: 4.3.2
   resolution: "stylis@npm:4.3.2"
@@ -3303,6 +3312,7 @@ __metadata:
     react-dom: ^19.0.0
     react-router-dom: ^7.1.5
     styled-components: ^6.1.15
+    styled-reset: ^4.5.2
     typescript: ~5.7.2
     typescript-eslint: ^8.22.0
     vite: ^6.1.0
