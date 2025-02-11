@@ -3,15 +3,20 @@ import { IWeatherHourly } from '../types/weatherTypes'
 import { roundingOff, getPop, getTimeOfData, getWindDirection, getDayOfData } from '../utils/weatherUtils'
 import { selectWeatherIcon } from '../utils/selectIcon'
 
-const HourlyWeather = ({ hourlyData }: { hourlyData: IWeatherHourly[] }) => {
+type HourlyWeatherPropsType = {
+  hourlyData: IWeatherHourly[]
+  timezone: string
+}
+
+const HourlyWeather = ({ hourlyData, timezone }: HourlyWeatherPropsType) => {
   return (
     <Container>
       <HourlyList>
         {hourlyData.map((item) => (
           <HourlyItem key={item.dt}>
             <TimeBox>
-              <span className="day">{getDayOfData(item.dt)}</span>
-              <span className="time">{getTimeOfData(item.dt)}시</span>
+              <span className="day">{getDayOfData(item.dt, timezone)}</span>
+              <span className="time">{getTimeOfData(item.dt, timezone)}</span>
             </TimeBox>
             <WeatherBox>
               {selectWeatherIcon(item.weather[0].id, '80px')}

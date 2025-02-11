@@ -4,17 +4,17 @@ import { useEffect, useRef, useState } from 'react'
 import { getDailyWeatherData } from '../api/weatherRequest'
 import { IWeatherDailyList } from '../types/weatherTypes'
 import { combineNightAndDay, getDateOfData, roundingOff } from '../utils/weatherUtils'
-// import { dailyWeatherMock } from '../mock/dailyWeatherMock'
+import { ICoords } from '../types/geoTypes'
 
-const WeeklyWeather = () => {
+const WeeklyWeather = ({ location }: { location: ICoords }) => {
   const [dailyData, setDailyData] = useState<IWeatherDailyList[]>([])
   const timeZoneOffset = useRef(0)
 
   useEffect(() => {
     const requestGetDailyWeather = async () => {
       try {
-        const res = await getDailyWeatherData({ lat: 37.58009, lon: 126.9771 })
-        const combinedData = combineNightAndDay(res.list)
+        const res = await getDailyWeatherData(location)
+        const combinedData = combineNightAndDay(res.list, res.city.timezone)
         setDailyData(combinedData)
         timeZoneOffset.current = res.city.timezone
       } catch {
@@ -22,12 +22,7 @@ const WeeklyWeather = () => {
       }
     }
     requestGetDailyWeather()
-
-    // 테스트용 mock
-    // timeZoneOffset.current = dailyWeatherMock.city.timezone
-    // const combinedData = combineNightAndDay(dailyWeatherMock.list)
-    // setDailyData(combinedData)
-  }, [])
+  }, [location])
 
   if (!dailyData) return <Container></Container>
 
@@ -37,7 +32,7 @@ const WeeklyWeather = () => {
         {dailyData.map((item) => (
           <DailyItem key={item.dt}>
             <TempBox>
-              <span className="date">{getDateOfData(item.dt)}</span>
+              <span className="date">{getDateOfData(item.dt, timeZoneOffset.current)}</span>
               <div>
                 <span className="min">{roundingOff(item.minTemp || 0, true)}°</span>
                 <span>{' / '}</span>

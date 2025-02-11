@@ -2,10 +2,10 @@ import styled from 'styled-components'
 import { roundingOff } from '../utils/weatherUtils'
 import Clock from './Clock'
 
-const Today = ({ currentTemp }: { currentTemp: number }) => {
+const Today = ({ currentTemp, timezone }: { currentTemp: number; timezone: string }) => {
   return (
     <Container>
-      <Clock />
+      <Clock timezone={timezone} />
       <span className="temp">{roundingOff(currentTemp, true)}°</span>
     </Container>
   )

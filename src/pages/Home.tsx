@@ -1,4 +1,4 @@
-import { useEffect, useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 import { getWeatherData } from '../api/weatherRequest'
 import { IWeatherResponse } from '../types/weatherTypes'
 import { getCurrentLocationName } from '../api/geoRequest'
@@ -22,12 +22,14 @@ const Home = () => {
   const [city, setCity] = useState<string>('')
   const [location, setLocation] = useState<ICoords>({ lat: 0, lon: 0 })
   const [weatherData, setWeatherData] = useState<IWeatherResponse>()
+  const timezone = useRef('')
 
   useEffect(() => {
     const getGeoLocation = () => {
       const onGeoSuccess = (position: IGeoLocationPosition) => {
         const { latitude, longitude } = position.coords
         setLocation({ lat: latitude, lon: longitude })
+        // setLocation({ lat: 25.2069, lon: 55.2701 }) // 두바이 시간대로 설정 테스트
       }
       const onGeoError = () => {
         setCity('서울시 종로구')
@@ -45,7 +47,8 @@ const Home = () => {
     const requestGetWeatherData = async () => {
       try {
         const res = await getWeatherData(location)
-        if (res) setWeatherData(res)
+        setWeatherData(res)
+        timezone.current = res.timezone
       } catch {
         alert('날씨를 불러올 수 없습니다.')
       }
@@ -62,7 +65,6 @@ const Home = () => {
 
     requestGetCurrentLocationName()
     requestGetWeatherData()
-    // setWeatherData(combinedWeatherMock) // 테스트용 mock
   }, [location])
 
   if (!weatherData)
@@ -78,11 +80,11 @@ const Home = () => {
     <HomeContainer>
       <LeftBox>
         <CurrentWeather currentData={weatherData.current} city={city} />
-        <HourlyWeather hourlyData={weatherData.hourly} />
+        <HourlyWeather hourlyData={weatherData.hourly} timezone={timezone.current} />
       </LeftBox>
       <RightBox>
-        <Today currentTemp={weatherData.current.temp} />
-        <WeeklyWeather />
+        <Today currentTemp={weatherData.current.temp} timezone={timezone.current} />
+        <WeeklyWeather location={location} />
       </RightBox>
     </HomeContainer>
   )
