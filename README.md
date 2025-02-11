@@ -3,7 +3,7 @@
 
 ## 배포 링크
 
-[✨ 배포 링크](https://cinema-paradiso-green.vercel.app/)
+[✨ 배포 링크](https://weather-nine-theta-25.vercel.app/)
 
 ## 설치 및 실행방법
 
