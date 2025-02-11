@@ -81,6 +81,10 @@ const Home = () => {
       <LeftBox>
         <CurrentWeather currentData={weatherData.current} city={city} />
         <HourlyWeather hourlyData={weatherData.hourly} timezone={timezone.current} />
+        <Reference>
+          <span>날씨 API : https://openweathermap.org/</span>
+          <span>지오코딩 : https://opencagedata.com/</span>
+        </Reference>
       </LeftBox>
       <RightBox>
         <Today currentTemp={weatherData.current.temp} timezone={timezone.current} />
@@ -109,8 +113,16 @@ const LeftBox = styled.div`
   margin: 20px;
   display: flex;
   flex-direction: column;
-  gap: 16px;
+  justify-content: space-between;
 `
+const Reference = styled.div`
+  margin-top: 30px;
+  font-size: 13px;
+  span {
+    margin-right: 30px;
+  }
+`
+
 const RightBox = styled.div`
   display: flex;
   flex-direction: column;
